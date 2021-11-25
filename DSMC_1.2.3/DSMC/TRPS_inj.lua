@@ -31956,29 +31956,33 @@ end
 
 --pickupZones = { "Zone name or Ship Unit Name", "smoke color", "limit (-1 unlimited)", "ACTIVE (yes/no)", "side (0 = Both sides / 1 = Red / 2 = Blue )", flag number (optional) }
 TRPS.pickupZones = {
-    { "pickzone1", "none", -1, "yes", 0 },
-    { "pickzone2", "none", -1, "yes", 0 },
-    { "pickzone3", "none", -1, "yes", 0 },
-    { "pickzone4", "none", -1, "yes", 0 },
-    { "pickzone5", "none", -1, "yes", 0 },
-    { "pickzone6", "none", -1, "yes", 0 },
-    { "pickzone7", "none", -1, "yes", 0 },
-    { "pickzone8", "none", -1, "yes", 0 },
-    { "pickzone9", "none", 5, "yes", 1 }, -- limits pickup zone 9 to 5 groups of soldiers or vehicles, only red can pick up
-    { "pickzone10", "none", 10, "yes", 2 },  -- limits pickup zone 10 to 10 groups of soldiers or vehicles, only blue can pick up
-
-    { "pickzone11", "blue", 20, "yes", 2 },  -- limits pickup zone 11 to 20 groups of soldiers or vehicles, only blue can pick up. Zone starts inactive!
-    { "pickzone12", "red", 20, "no", 1 },  -- limits pickup zone 11 to 20 groups of soldiers or vehicles, only blue can pick up. Zone starts inactive!
-    { "pickzone13", "none", -1, "yes", 0 },
-    { "pickzone14", "none", -1, "yes", 0 },
-    { "pickzone15", "none", -1, "yes", 0 },
-    { "pickzone16", "none", -1, "yes", 0 },
-    { "pickzone17", "none", -1, "yes", 0 },
-    { "pickzone18", "none", -1, "yes", 0 },
-    { "pickzone19", "none", 5, "yes", 0 },
-    { "pickzone20", "none", 10, "yes", 0, 1000 }, -- optional extra flag number to store the current number of groups available in
-
-    { "USA Carrier", "blue", 10, "yes", 0, 1001 }, -- instead of a Zone Name you can also use the UNIT NAME of a ship
+ 	{ "CargoParis", "none", -1, "yes", 2 },
+    { "CargoLondon", "none", -1, "yes", 2 },
+    { "CargoRamat", "none", -1, "yes", 2 },
+    { "CargoIncirlik", "none", -1, "yes", 2 },
+										  
+    { "CVN-72 Abraham Lincoln", "none", -1, "yes", 2 },
+										  
+    { "CVN-74 John C. Stennis", "none", -1, "yes", 2 },
+    { "USS Hawes FFG-53", "none", -1, "yes", 2 },
+																														   
+	{ "USS Vella Gulf CG-72", "none", -1, "yes", 2 },
+																																						
+																																					  
+	{ "USS Carr FFG-52", "none", -1, "yes", 2 },
+																																					   
+																																					  
+	{ "USS Anzio CG-68", "none", -1, "yes", 2 },
+	{ "USS Ford FFG-54", "none", -1, "yes", 2 },
+										   
+	{ "USS Kauffman FFG-59", "none", -1, "yes", 2 },
+										   
+	{ "USS Normandy CG-60", "none", -1, "yes", 2 },										  
+										  
+	{ "USS Port Royal CG-73", "none", -1, "yes", 2 },
+	{ "USS Michael Murphy DDG-112", "none", -1, "yes", 2 },
+	{ "USS Peleliu LHA-5", "none", -1, "yes", 2 },
+															
 }
 
 
@@ -32016,6 +32020,8 @@ TRPS.wpZones = {
 
 -- Use any of the predefined names or set your own ones
 TRPS.transportPilotNames = {
+	"Incirlik - C-130",
+	"Ramat David - C-130",				   
     "helicargo1",
     "helicargo2",
     "helicargo3",
@@ -32374,6 +32380,8 @@ TRPS.warehouseObjects = {
 TRPS.vehicleTransportEnabled = {
     "76MD", -- the il-76 mod doesnt use a normal - sign so il-76md wont match... !!!! GRR
     "C-130",
+	"Mi-8MT",		
+	"Hercules",		   
 }
 
 
@@ -32391,6 +32399,7 @@ TRPS.unitLoadLimits = {
     -- Remove the -- below to turn on options
 	["UH-1H"] = 10,
     ["Mi-8MT"] = 20, -- check if ok
+	["Hercules"] = 40, -- check if ok										 
 	["SA342Mistral"] = 4,
     ["SA342L"] = 4,
     ["SA342M"] = 4,

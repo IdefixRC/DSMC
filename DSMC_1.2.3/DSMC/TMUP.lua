@@ -19,18 +19,18 @@ HOOK.writeDebugDetail(ModuleName .. ": local required loaded")
 -- ## LOCAL VARIABLES
 TMUPloaded						= false
 local minHourTime				= DSMC_StarTimeHourMin or 4   -- this is the minimum clock hour that could be set for mission start
-local maxHourTime				= DSMC_StarTimeHourMax or 16  -- this is the maximum clock hour that could be set for mission start
+local maxHourTime				= DSMC_StarTimeHourMax or 10  -- this is the maximum clock hour that could be set for mission start
 
 -- ## MANUAL TABLES
 
 
 
 -- ## CHECK FUNCTION
-if minHourTime < 1 or minHourTime > 14 then
+if minHourTime < 1 or minHourTime > 9 then
 	minHourTime = 4
 end
-if maxHourTime < 15 or maxHourTime > 23 then
-	maxHourTime = 16
+if maxHourTime < 10 or maxHourTime > 23 then
+	maxHourTime = 11
 end
 
 -- ## ELAB FUNCTION

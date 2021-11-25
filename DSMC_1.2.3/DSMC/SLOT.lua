@@ -27,7 +27,7 @@ local tblSlots					= {}
 --local MaxSlotsPerHeliport		= 4 -- maximum number of created slots per heliport that could be generated. Not related to airport/airbase
 --local MaxFlightPerAirport		= 2
 --local slotOnAirbasePerType		= 2
-local maxFlights				= 4 
+local maxFlights				= 1 
 
 
 -- ## MANUAL TABLES

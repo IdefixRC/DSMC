@@ -621,7 +621,7 @@ function addFARPwhBase(unitId, coa, wh, voidIt)
 		{
 			["InitFuel"] = 100,
 		}, -- end of ["gasoline"]
-		["unlimitedMunitions"] = true,
+		["unlimitedMunitions"] = false,
 		["methanol_mixture"] = 
 		{
 			["InitFuel"] = 100,
@@ -643,7 +643,7 @@ function addFARPwhBase(unitId, coa, wh, voidIt)
 			["InitFuel"] = 100,
 		}, -- end of ["jet_fuel"]
 		["OperatingLevel_Eqp"] = 1,
-		["unlimitedFuel"] = true,
+		["unlimitedFuel"] = false,
 		["aircrafts"] = 
 		{
 		}, -- end of ["aircrafts"]
@@ -651,7 +651,7 @@ function addFARPwhBase(unitId, coa, wh, voidIt)
 		{
 		}, -- end of ["weapons"]
 		["OperatingLevel_Fuel"] = 1,
-		["unlimitedAircrafts"] = true,
+		["unlimitedAircrafts"] = false,
 	}
 
 	HOOK.writeDebugDetail(ModuleName .. ": addFARPwhBase default warehouse, all void but unlimited, created")
@@ -675,22 +675,22 @@ function addFARPwhBase(unitId, coa, wh, voidIt)
 			-- zero weapons
 			HOOK.writeDebugDetail(ModuleName .. ": addFARPwhBase: zeroing weapons ")
 			for wId, wData in pairs(toZero.weapons) do
-				wData.initialAmount = 0
+				wData.initialAmount = 9999
 			end
 
 			-- zero aircraft
 			HOOK.writeDebugDetail(ModuleName .. ": addFARPwhBase: zeroing aircraft")
 			for aTy, aTyData in pairs(toZero.aircrafts) do
 				for aId, aData in pairs(aTyData) do
-					aData.initialAmount = 0
+					aData.initialAmount = 9999
 				end
 			end	
 			
 			-- zero fuel
-			toZero.gasoline.InitFuel 			= 0
-			toZero.diesel.InitFuel 				= 0
-			toZero.methanol_mixture.InitFuel 	= 0
-			toZero.jet_fuel.InitFuel 			= 0
+			toZero.gasoline.InitFuel 			= 5000
+			toZero.diesel.InitFuel 				= 5000
+			toZero.methanol_mixture.InitFuel 	= 5000
+			toZero.jet_fuel.InitFuel 			= 5000
 
 			-- reset parameters
 			toZero.unlimitedMunitions  			= false
@@ -698,9 +698,9 @@ function addFARPwhBase(unitId, coa, wh, voidIt)
 			toZero.unlimitedAircrafts			= false
 
 			-- reset others
-			toZero.OperatingLevel_Air			= 1
-			toZero.OperatingLevel_Eqp			= 1
-			toZero.OperatingLevel_Fuel			= 1
+			toZero.OperatingLevel_Air			= 99
+			toZero.OperatingLevel_Eqp			= 99
+			toZero.OperatingLevel_Fuel			= 99
 			toZero.speed						= 1
 			toZero.size							= 200
 			toZero.periodicity					= 1000
