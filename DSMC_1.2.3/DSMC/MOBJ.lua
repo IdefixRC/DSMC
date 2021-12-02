@@ -21,6 +21,7 @@ MOBJloaded						= false
 local BugFixed					= true -- TILL ED DOESN'T SOLVE THE SCENERY DESTRUCTION BUG, MP SIDE
 local BaseExplosionPower		= 1000
 local DSMC_reserved_flag		= 12345
+local smallObjectFilter			= 11 -- map object with life less than this value won't be tracked
 
 -- ## MANUAL TABLES
 
@@ -30,7 +31,20 @@ function updateMapObject(missionEnv, tblDeadScenObj)
 	if table.getn(tblDeadScenObj) > 0 then
 
 		local currentZoneNum 	= table.getn(missionEnv.triggers.zones) + 1
-		local currentZoneId		= 1000
+		local maxZid = 0
+		for zId, zData in pairs (missionEnv.triggers.zones) do
+			if zData.zoneId > maxZid then
+				maxZid = zData.zoneId
+			end
+		end
+		
+		local currentZoneId	= 1000
+		if maxZid > 0 then
+			currentZoneId = maxZid +1
+		end
+		
+		HOOK.writeDebugDetail(ModuleName .. ": currentZoneId: " .. tostring(currentZoneId))
+		
 		local actionsId			= 1000		
 
 		local currentTrigNum = nil
@@ -79,32 +93,47 @@ function updateMapObject(missionEnv, tblDeadScenObj)
 		-- add zones & trigger
 		for ds_id, ds_data in pairs(tblDeadScenObj) do			
 			if ds_data.objId then
-				-- local currentZoneId = ds_data.objId
 				local ExplosionPower = BaseExplosionPower 
 
-				if ds_data.SOdesc.life < 5 then
-					ExplosionPower = 10
-				elseif ds_data.SOdesc.life < 50 then
-					ExplosionPower = 50								
-				elseif ds_data.SOdesc.life < 100 then
-					ExplosionPower = 300
-				elseif ds_data.SOdesc.life < 500 then
-					ExplosionPower = 800
+				HOOK.writeDebugDetail(ModuleName .. ": Objects life : " .. tostring(ds_data.SOdesc.life))
+
+				if tonumber(ds_data.SOdesc.life) then
+					if ds_data.SOdesc.life < 5 then
+						ExplosionPower = 10
+					elseif ds_data.SOdesc.life < 50 then
+						ExplosionPower = 50								
+					elseif ds_data.SOdesc.life < 100 then
+						ExplosionPower = 300
+					elseif ds_data.SOdesc.life < 500 then
+						ExplosionPower = 800
+					else
+						ExplosionPower = 5000 -- ds_data.SOdesc.life * 15
+					end
 				else
-					ExplosionPower = 5000 -- ds_data.SOdesc.life * 15
+					ExplosionPower = 300
 				end
 
 				--check already there
 				local okDoDestZone = true
 				for zoneNum, zoneData in pairs(missionEnv.triggers.zones) do
-					if zoneData.name == tostring("DSMC_ScenDest_" .. tostring(currentZoneId)) then
-						HOOK.writeDebugDetail(ModuleName .. ": trigger is already there! : " .. tostring(currentZoneId))
+					if zoneData.name == tostring("DSMC_ScenDest_" .. tostring(ds_data.objId)) then
+						HOOK.writeDebugDetail(ModuleName .. ": trigger is already there! : " .. tostring(ds_data.objId))
 						okDoDestZone = false
 					end
 				end
 
+				-- filter life
+				local okLifeFilter = true
+				if tonumber(ds_data.SOdesc.life) then
+					if tonumber(ds_data.SOdesc.life) < smallObjectFilter then	
+						HOOK.writeDebugDetail(ModuleName .. ": object is too small: " .. tostring(ds_data.objId))			
+						okLifeFilter = false
+					end
+				end
+
 				-- create zone
-				if okDoDestZone then
+				if okDoDestZone and okLifeFilter then
+					currentZoneId	= currentZoneId +1
 					if not missionEnv.triggers.zones[currentZoneNum] then
 						missionEnv.triggers.zones[currentZoneNum] = {
 							["x"] = ds_data.x,
@@ -165,12 +194,12 @@ function updateMapObject(missionEnv, tblDeadScenObj)
 						end	
 						
 						currentZoneNum 	= currentZoneNum +1
-						currentZoneId	= currentZoneId +1
+						--currentZoneId	= currentZoneId +1
 						actionsId 		= actionsId +1
-						HOOK.writeDebugDetail(ModuleName .. ": created zone name " .. tostring("DSMC_ScenDest_" .. tostring(currentZoneId)))
+						HOOK.writeDebugDetail(ModuleName .. ": created zone name " .. tostring("DSMC_ScenDest_" .. tostring(ds_data.objId)))
 					end
 				else
-					HOOK.writeDebugDetail(ModuleName .. ": zone skipped, already there!")
+					HOOK.writeDebugDetail(ModuleName .. ": zone skipped, already there or life is less than filter!")
 				end
 			end
 		end
